@@ -1,43 +1,52 @@
 {% set name = "requirements-parser" %}
-{% set version = "0.2.0" %}
-{% set sha256 = "5963ee895c2d05ae9f58d3fc641082fb38021618979d6a152b6b1398bd7d4ed4" %}
+{% set version = "0.13.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name|replace('-', '_') }}-{{ version }}.tar.gz
+  sha256: 0843119ca2cb2331de4eb31b10d70462e39ace698fd660a915c247d2301a4418
 
 build:
-  noarch: python
   number: 0
-  script: python -m pip install --no-deps --ignore-installed .
+  skip: true  # [py<38]
+  script: {{ PYTHON }} -m pip install --no-deps --no-build-isolation . -vv
 
 requirements:
   build:
     - python
     - pip
+    - poetry-core >=1.0.0
   run:
     - python
-    - setuptools
+    - packaging >=23.2
 
 test:
+  source_files:
+    - tests
   imports:
     - requirements
+    - requirements.requirement
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v tests
+  requires:
+    - pip
+    - pytest
 
 about:
   home: https://github.com/davidfischer/requirements-parser
-  license: BSD
-  license_file: LICENSE.rst
-  summary: 'This is a small Python module for parsing Pip requirement files.'
-
+  license: Apache-2.0
+  license_family: Apache
+  license_file: LICENSE
+  summary: This is a small Python module for parsing Pip requirement files.
   description: |
     This is a small Python module for parsing Pip requirement files.
     The goal is to parse everything in the Pip requirement file format spec.
-  doc_url: https://requirements-parser.readthedocs.io/
+  doc_url: https://requirements-parser.readthedocs.io
   dev_url: https://github.com/davidfischer/requirements-parser
 
 extra:
