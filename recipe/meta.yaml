@@ -15,7 +15,7 @@ build:
   script: {{ PYTHON }} -m pip install --no-deps --no-build-isolation . -vv
 
 requirements:
-  build:
+  host:
     - python
     - pip
     - poetry-core >=1.0.0
