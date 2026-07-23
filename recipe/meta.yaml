@@ -38,7 +38,7 @@ test:
     - pytest
 
 about:
-  home: https://github.com/davidfischer/requirements-parser
+  home: https://github.com/madpah/requirements-parser
   license: Apache-2.0
   license_family: Apache
   license_file: LICENSE
@@ -47,7 +47,7 @@ about:
     This is a small Python module for parsing Pip requirement files.
     The goal is to parse everything in the Pip requirement file format spec.
   doc_url: https://requirements-parser.readthedocs.io
-  dev_url: https://github.com/davidfischer/requirements-parser
+  dev_url: https://github.com/madpah/requirements-parser
 
 extra:
   recipe-maintainers:
